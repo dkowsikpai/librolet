@@ -1,0 +1,18 @@
+{%extends "blog/base.html" %}
+{% block content %}
+{% load staticfiles %}
+	<div>
+        <div style="background: url({% static 'helpImg/signUp.png' %}); width:100%; height:60%;background-size: cover;padding:0px; margin: 0px;"></div>
+		<div style="background:#fff;">
+			<h1>Help - Registration</h1>
+			<b>Username:</b><article>Username is a unique identifier for your account.You can choose any usename unless its already taken.</article>
+            <b>Password:</b><article>Password is the important part of your account.Please try to keep a secure password.If you are unaware of such</article>
+            <b>Email:</b><article>Email is the authentication part of your account.Any identity theft or identity fraud is matter of high concern.So please do not attemp to user fake information</article>
+            <hr/>
+			<article>After completing the following steps a randomly generated key will be sent to your mail account.Navigate to activation page and paste the code sent to you.On clicking activate your account will be activated and you can login to your account</article>
+			
+		</div>
+	</div>
+    
+
+{% endblock content %}

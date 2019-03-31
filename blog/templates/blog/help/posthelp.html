@@ -1,0 +1,19 @@
+﻿{%extends "blog/base.html" %}
+{% block content %}
+{% load staticfiles %}
+	<div>
+        <div style="background: url({% static 'helpImg/npos.jpg' %}); width:100%; height:60%;background-size: cover;padding:0px; margin: 0px;"></div>
+		<div style="background:#fff;">
+			<h1>Help - Posting content onto the blog</h1>
+				<p>Once you have logged onto your account, click on the "New Post" title.</p>
+				<p>You will be redirected to page as shown above</p>
+				<p>First input field specifies the topic of your book</p>
+				<p>Content field is used for giving a short description of the book.</p>
+				<p>User can input the image of the book by clicking on the button below.</p>
+				<b>Image is mandatory as it is the proof that you have the book with you</b>
+				<p>After completing the process,click the post button. And your post will be on the Librolet with default token value of 100.If you delete the post,you will loose the 100 token you have gained</p>
+			</div>
+	</div>
+    
+
+{% endblock content %}

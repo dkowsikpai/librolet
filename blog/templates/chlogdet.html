@@ -1,0 +1,33 @@
+﻿{%extends "blog/base.html" %}
+{% block content %}
+		<div>
+			<h1>Sent Item({{e}})</h1>
+		</div>
+		<div style="padding:15px; margin:auto;!important">
+			<table class="table table-striped table-dark">
+				<thead>
+				  <tr>
+					<th scope="col">#</th>
+					<th scope="col">Id</th>
+					<th scope="col">Date</th>
+					<th scope="col">Receiver</th>
+					<th scope="col">Message</th>
+					<th scope="col">Menu</th>
+				  </tr>
+				</thead>	
+			{% for i in event %}
+				  <tr>
+					<th scope="row"><a class="text-light linktopost" href="{% url 'post-detail' i.post_id %}">{{ forloop.counter }}</a></th>
+					<th scope="row"><a class="text-light linktopost" href="{% url 'post-detail' i.post_id %}">{{ i.id }}</a></th>
+					<td><a class="text-light linktopost" href="{% url 'post-detail' i.post_id %}">{{ i.date_posted }}</a></td>
+					<td><a class="text-light linktopost" href="{% url 'post-detail' i.post_id %}">{{ i.receiver }}</a></td>
+					<td><a class="text-light linktopost" href="{% url 'post-detail' i.post_id %}">{{ i.msg }}</a></td>
+					<td><a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'chat-msg-reply' i.id %}">Reply</a></td>
+					{% if i.showmsg == 1 %}
+					<td><a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'chat-msg-del' i.id %}">Delete</a></td>
+					{% endif %}
+				  </tr>
+			{% endfor %}
+			</table>
+{% endblock content %}
+

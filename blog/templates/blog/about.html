@@ -1,0 +1,36 @@
+{%extends "blog/base.html" %}
+{% block content %}
+{% load staticfiles %}
+	<div>
+        <div style="background: url({% static 'bg.jpg' %}); width:100%; height:60%;background-size: cover;padding:0px; margin: 0px;"></div>
+		<div style="background:#fff;">
+				<h1>About</h1>
+				<p style="font-size:25">
+					Librolet is a non profit initiative by syscodefy that aims at faciliating sharing of books.By mediating the renter and the rentee,Librolet
+					adds new dimensions to the conventional renting process through cashless exchange of books.It also provides communication facilities 
+					which enables agreements and contracts between the renter and rentee.With the youth drifting away from books to mobile gadget,Librolet's primary 
+					objective includes instilling a sense of readership among students.It also forms the perfect platform for the elderly who are already into the habit of reading.
+				</p>
+				<hr/>
+				<h1><b class="blu">&lt;/S</b><b>y</b><b class="blu">S</b><b class="blu">&gt;</b><b>codify Team</b><br/><hr/></h1>
+						Email: <a href="mailto:anenkona2016@gmail.com">anenkona2016@gmail.com</a><br/><br/>
+					<style>
+						.aboutn{
+							font-size:20px;
+							cursor: pointer;
+						}
+						.blu{
+							color: blue;
+						}
+						b{
+							font-weight: bold;
+							font-family:sans-serif;
+							
+						}
+						
+					</style>
+		</div>
+	</div>
+    
+
+{% endblock content %}

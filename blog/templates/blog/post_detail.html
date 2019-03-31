@@ -1,0 +1,56 @@
+﻿{%extends "blog/base.html" %}
+{% block content %}
+	<article class="media content-section">
+		<img class="rounded-circle article-img" src="{{object.author.profile.image.url}}" />
+		<div class="media-body">
+			<div class="article-metadata">
+				<small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small><br/>
+					{% if object.author != user %}
+						<a class="mr-2" href="{% url 'user-post' object.author.username %}">{{ object.nameu }}</a><br/>
+						<a class="mr-2 text-dark text-muted " href="{% url 'user-post' object.author.username %}">Username: {{ object.author }}</a><br/>
+						<small class="text-muted text-dark"><i>College:</i><b> {{ object.college }}</b></small>
+						<small class="text-muted text-dark"><i>Email:</i><b> {{ object.email }}</b></small>
+						<small class="text-muted text-dark"><i>Mobile No:</i><b> {{ object.mobileno }}</b></small><br/>
+						<p class="mr-2 text-muted text-dark">Token Got: <b>{{ object.tokens }}</b></p>
+					{% else %}
+							<label class="text-muted">Token Got: {{ object.tokens }}</label><br/>
+							{% if object.tokenbyuser != "null" %}
+								<label class="text-muted">Token given by:</label>
+								<a class="mr-2" href="{% url 'tok-user-profile' object.id %}">
+									{{ object.tokenbyuser }}
+								</a>
+							{% endif %}
+						
+					{% endif %}
+					<div>
+						{% if object.author == user %}
+								
+								<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
+								{% if object.bookeditem == 0 and  object.tokenbyuser == "null"%}
+									<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+								{% endif %}
+								{% if object.bookeditem == 1 %}
+									<a class="btn btn-info btn-sm mt-1 mb-1"  href="{% url 'post-retbook' object.id %}">Book Returned</a>
+								{% elif object.tokenbyuser != "null" %}
+									<a class="btn btn-info btn-sm mt-1 mb-1"  href="{% url 'post-booked' object.id %}">Share it</a>
+								{% endif %}
+						{% else %}
+							{% if object.bookeditem == 0 %}
+								<a class="btn btn-info btn-sm mt-1 mb-1"  href="{% url 'post-token' object.id %}">Award Token</a>
+							{% elif object.tokenbyuser == user.username %}
+								<p class="btn btn-info btn-sm mt-1 mb-1" >You got this book</p>
+								<a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'blog-msgs-create' object.id %}">Send Request</a>
+							{% else %}
+								<p class="btn btn-info btn-sm mt-1 mb-1" >Already Shared</p>
+							{% endif %}	
+						{% endif %}
+					</div>
+			</div>
+			<h2 class="article-title" >{{ object.title }}</h2>
+			<p class="article-content">{{ object.content }}</p>
+			<img style="height:300px" src="{{object.image.url}}" />
+		</div>
+	</article>
+{% endblock content %}
+
+<!--{{STATIC_URL}}-->

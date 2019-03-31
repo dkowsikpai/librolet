@@ -1,0 +1,6 @@
+
+2019-01-19 23:05:25.766498
+127.0.0.1{title:test create content:backlog32 date_posted:2019-01-19 17:35:25.766498+00:00 author:root img_url:post_pics/Remove_Blemishes_Beauty_PiXimperfect_Sample_Image.jpg booked:0 college:GEC Thrissur mob:+91 7356823609 tokens:100 user_got:null }
+
+2019-01-23 11:44:29.041335
+127.0.0.1{title:Blog 2 content:Second Post Content! Now date_posted:2019-01-23 06:14:29.041335+00:00 author:root img_url:default.jpg booked:0 college:GEC Thrissur mob:+91 7356823609 tokens:0 user_got:null }

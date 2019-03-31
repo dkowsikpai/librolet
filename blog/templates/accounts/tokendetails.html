@@ -1,0 +1,28 @@
+﻿{%extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+		<div class="content-section" >
+				<fieldset class="form-group" >
+					<legend class="border-bottom mb-4">Token Details</legend>
+					<div style="padding:15px; margin:auto;!important">
+						{% for i in data %}
+							<article class="media content-section bg-light">
+								<div class="media-body">
+									<div class="article-metadata">
+										<small class="text-muted text-dark">{{ i.date_posted|date:"F d, Y" }}</small><br/>
+										<small class="text-muted text-dark">Token for this post:{{ i.tokens }}</small><br/>
+										<small class="text-muted text-dark">Token given by:{{ i.tokenbyuser }}</small><br/>
+									</div>
+									<h2><a class="article-title text-dark" href="{% url 'post-detail' i.id %}">{{ i.title }}</a></h2>
+									<p class="article-content text-dark">{{ i.content }}</p>
+									<a class="article-title text-dark" href="{% url 'post-detail' i.id %}">
+										<img class="rounded-circle article-img" src="{{i.image.url}}" />
+									</a>
+								</div>
+							</article>
+						{% endfor %}
+						</div>
+				</fieldset>
+				
+		</div>
+{% endblock content %}

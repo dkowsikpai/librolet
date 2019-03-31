@@ -1,0 +1,19 @@
+﻿{%extends "blog/base.html" %}
+{% block content %}
+{% load staticfiles %}
+	<div>
+        <div style="background: url({% static 'helpImg/profile.jpg' %}); width:100%; height:60%;background-size: cover;padding:0px; margin: 0px;"></div>
+		<div style="background:#fff;">
+			<h1>Help -Profile Upadate </h1>
+			 <p>Profile upadate page is shown above.</p>
+			 <p>Previously added data will be displayed</p>
+			 <p>The token button below gives the current token ammount in your account</p>
+			 <p>Email and Full name of the use can be updated here</p>
+			 <p>If you wish to update your profile picture please feel free to do so</p>
+			 <p>Collage name of the use can be updated on the input field given</p>
+			 <p>Last field is use for updating the phone number.Please make sure to add +91 before 10 digit phone number</p>
+		</div>
+	</div>
+    
+
+{% endblock content %}

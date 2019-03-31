@@ -1,0 +1,19 @@
+﻿{%extends "blog/base.html" %}
+{% block content %}
+		<div style="padding:15px; margin:auto;!important">
+			<table class="table table-striped table-dark">
+				<thead>
+				  <tr>
+					<th scope="col">#</th>
+					<th scope="col">Users</th>
+				  </tr>
+				</thead>	
+			{% for i in event%}
+				  <tr>
+					<th scope="row"><a class="text-light linktopost" href="{% url 'chlogdet' i.id  %}" title="{{i.id}}">{{ forloop.counter }}</a></th>
+					<td><a class="text-light linktopost" href="{% url 'chlogdet' i.id %}">{{ i.username }}</a></td>
+				  </tr>
+			{% endfor %}
+			</table>
+{% endblock content %}
+

@@ -1,0 +1,51 @@
+﻿{%extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+	
+		<div>
+			<h1>Librolet - Feedback</h1>
+		</div>
+		{% if user.is_autenticated%}
+			<div class="content-section" >
+				<form method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<fieldset class="form-group" >
+						<legend class="border-bottom mb-4">Feedback</legend>
+						{{ feedback|crispy }}
+					</fieldset>
+					<div class="form-group">
+						<button class="btn btn-info" type="submit">Post</button>
+					</div>			
+				</form>
+			</div>
+		{% endif %}
+		<div style="padding:15px; margin:auto;!important">
+			<table class="table table-striped table-dark">
+				<thead>
+				  <tr>
+					<th scope="col">#</th>
+					<th scope="col">Date</th>
+					<th scope="col">Feedback</th>
+					<th scope="col">Admin Comment</th>
+				</tr>
+				</thead>	
+			{% for i in msgs%}
+				  <tr>
+					{% if user.username == "root" %}
+					<th scope="row"><a class="text-light linktopost" title="{{i.id}}">{{ forloop.counter }}</a></th>
+					{% else %}
+					<th scope="row"><a class="text-light linktopost">{{ forloop.counter }}</a></th>
+					{% endif %}
+					<td><a class="text-light linktopost" >{{ i.date_posted }}</a></td>
+					<td><a class="text-light linktopost" >{{ i.msg }}</a></td>
+					{% if i.admincomment != "null" %}
+					<td><a class="text-light linktopost" >{{ i.admincomment }}</a></td>
+					{% else %}
+					<td><a class="text-light linktopost" ></a></td>
+					{% endif %}
+				  </tr>
+			{% endfor %}
+			</table>
+		</div>
+{% endblock content %}
+

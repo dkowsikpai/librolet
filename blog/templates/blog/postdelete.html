@@ -1,0 +1,20 @@
+﻿{%extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+		<div class="content-section" >
+			<form method="POST" >
+				{% csrf_token %}
+				<fieldset class="form-group" >
+					<legend class="border-bottom mb-4">Blog Post</legend>
+					<div style="display:none;">
+					{{ form|crispy }}
+					</div>
+					<h3>Are you sure you want to delete the post? You cannot undo delete</h3>
+				</fieldset>
+				<div class="form-group">
+					<button class="btn btn-danger btn-sm mt-1 mb-1" type="submit">Yes, I'm Sure</button>
+					<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'blog-home' %}">Cancel</a>
+				</div>			
+			</form>
+		</div>
+{% endblock content %}
