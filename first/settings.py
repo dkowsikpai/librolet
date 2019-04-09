@@ -26,7 +26,7 @@ DEBUG = False
 
 #f = open('host.txt', 'r')
 #list = f.read().strip()
-ALLOWED_HOSTS = ['localhost', '192.168.43.14', 'librolet', '192.168.43.160', 'dkowsikpai.pythonanywhere.com']
+ALLOWED_HOSTS = ['localhost', '192.168.43.14', 'librolet', '192.168.43.160', 'dkowsikpai.pythonanywhere.com', 'http://django-psql-persistent-librolet.1d35.starter-us-east-1.openshiftapps.com/']
 # ALLOWED_HOSTS = []
 
 
