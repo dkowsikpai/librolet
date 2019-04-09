@@ -8,11 +8,11 @@
 	<link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}"/>
 	<link rel="stylesheet" href='{% static "main.css" %}'/>
 	<link rel="stylesheet" href='{% static "tableclass.css" %}'/>
-	<head> 
+	<head>
 		{% if title %}
 			<title>Blog - {{title}}</title>
 		{% else %}
-			<title>Blog</title>	
+			<title>Blog</title>
 		{% endif %}
 	</head>
 
@@ -34,7 +34,7 @@
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								{% if user.profile.msgscount != 0%}
 									Messages({{user.profile.msgscount}})
-								{% else %}	
+								{% else %}
 									Messages
 								{% endif %}
 							</a>
@@ -42,14 +42,14 @@
 								<a class="dropdown-item" href="{% url 'blog-msgs' 1%}">
 								{% if user.profile.msgscount != 0%}
 									Inbox({{user.profile.msgscount}})
-								{% else %}	
+								{% else %}
 									Inbox
 								{% endif %}
 								</a>
 								<a class="dropdown-item" href="{% url 'blog-msgs' 2%}">Sent Item</a>
-							</div>	
-					</li>					
-					
+							</div>
+					</li>
+
 					<li class="nav-item">
 						<a class="nav-link" href="{% url 'profile'%}">Profile</a>
 					</li>
@@ -59,19 +59,19 @@
 					<li class="nav-item">
 						<a class="nav-link" href="{% url 'blog-about'%}">About</a>
 					</li>
-					{% if user.username == "root" %}	
+					{% if user.username == "libroletadmin1969" %}
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								Admin Control
 							</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<a class="dropdown-item" href="/admin/">Settings DB</a>
+								<a class="dropdown-item" href="/mottuty/">Settings DB</a>
 								<a class="dropdown-item" href="{% url 'adlogdet' %}">Posts</a>
 								<a class="dropdown-item" href="{% url 'chlog'%}">Chats</a>
-							</div>	
+							</div>
 						</li>
 					{% endif %}
-					&nbsp;&nbsp;&nbsp; 
+					&nbsp;&nbsp;&nbsp;
 					<li class="nav-item">
 						<div >
 							<form action="{% url 'search-login' %}" method="POST" class="form-inline my-2 my-lg-0">{% csrf_token %}
@@ -93,17 +93,17 @@
 							<a class="dropdown-item" href="{% url 'help' 7 %}">Messages</a>
 							<a class="dropdown-item" href="{% url 'help' 5 %}">Profile</a>
 							<a class="dropdown-item" href="{% url 'help' 2 %}">Password Reset</a>
-						</div>	
+						</div>
 					</li>
 					<li class="nav-item" >
 						<small><a class="nav-link " href="{% url 'fdb'%}">Feedback</a></small>
 					</li>
-					
+
 				</ul>
 				</ul>
 				</ul>
 				</ul>
-				</div>			
+				</div>
 			{% else %}
 				<a class="navbar-brand" href="{% url 'blog-homelogout'%}">Librolet</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -124,8 +124,8 @@
 							</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 								<a class="dropdown-item" href="{% url 'blog-register'%}">Register</a>
-								<a class="dropdown-item" href="{% url 'activate'%}">Activation</a>
-							</div>	
+								<!--<a class="dropdown-item" href="{% url 'activate'%}">Activation</a>-->
+							</div>
 						</li>
 						<li class="nav-item float-right">
 							<div >
@@ -143,18 +143,18 @@
 								<a class="dropdown-item" href="{% url 'help' 6 %}">Librolet</a>
 								<a class="dropdown-item" href="{% url 'help' 1 %}">Registration</a>
 								<a class="dropdown-item" href="{% url 'help' 2 %}">Password Reset</a>
-							</div>	
+							</div>
 						</li>
 						<li class="nav-item" >
 							<small><a class="nav-link " href="{% url 'fdb'%}">Feedback</a></small>
 						</li>
 					</ul>
-				</div>			
+				</div>
 			{% endif %}
 
 			</nav>
 		 </div>
-		 
+
 		<div class="col-md-9 col-sm-4 col-xs-4" style="padding:15px; margin:auto;">
 			{% if messages %}
 				{% for message in messages %}
@@ -164,7 +164,7 @@
 				{% endfor %}
 			{% endif %}
 			{% block content %}{% endblock content %}
-		</div>	
+		</div>
 	</body>
 </html>
-			
+

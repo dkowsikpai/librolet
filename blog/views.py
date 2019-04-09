@@ -94,13 +94,13 @@ def chatreply(request, pk):
 	else:
 		chat_form = ChatForm()
 	return render(request, 'blog/msgform.html', {'chat_form': chat_form})
-	
+
 class HomeLogout(ListView):
 	models = Post
 	template_name = 'blog/homelogout.html' # <app>/<model>_<viewtype>.html
 	context_object_name = 'data'
 	ordering = ['-date_posted']
-	paginate_by = 2
+	paginate_by = 5
 	def get_queryset(self):
 		# usersid = User.objects.get(username='root').id
 		return (Post.objects.filter(showpost=1)).order_by('-date_posted')
@@ -119,7 +119,7 @@ def tablink(request):
 		}
 	return render(request,'blog/tablink.html',content)
 
-	
+
 def about(request):
 	return render(request,'blog/about.html',{'title':'About'})
 
@@ -138,34 +138,34 @@ def help(request, id):
 		return render(request,'blog/help/logoutview.html',{'title':'Help'})
 	elif id == 7:
 		return render(request,'blog/help/msgin.html',{'title':'Help'})
-	
+
 def termcond(request):
 	return render(request,'blog/termcond.html',{'title':'Terms and Conditions'})
-	
-#--------------------------------------- User registration start--------------------------------------	
+
+#--------------------------------------- User registration start--------------------------------------
 def register(request):
 	if request.method == 'POST':
 		strg = ""
 		r_form = UserRegisterForm(request.POST)
 		if r_form.is_valid():
 			user = r_form.save(commit=False)
-			user.is_active = False
+			user.is_active = True
 			userhere = user.username
 			user.save()
-			for i in range(6):
+			"""for i in range(6):
 				strg += random.choice(string.ascii_letters+string.digits+"&!@#*+")
 			event_here =  UserRegModel(user=userhere, codesent=strg)
 			event_here.save()
 			message = render_to_string('accounts/acc_active_email.html', {
-				'user':user, 
+				'user':user,
 				'actcode':strg
 			})
 			mail_subject = 'Activate your blog account.'
 			to_email = r_form.cleaned_data.get('email')
 			email = EmailMessage(mail_subject, message, to=[to_email])
-			backlog(request.META['REMOTE_ADDR'], "email", ("{ emailid:"+str(to_email)+" message: "+"username: "+str(user)+"code: "+str(strg)+"}"),request.META['REMOTE_ADDR'])
-			email.send()
-			return render(request, 'accounts/activate_mail.html')
+			#backlog(request.META['REMOTE_ADDR'], "email", ("{ emailid:"+str(to_email)+" message: "+"username: "+str(user)+"code: "+str(strg)+"}"),request.META['REMOTE_ADDR'])
+			email.send()"""
+			return redirect('blog-homelogout')
 	else:
 		r_form = UserRegisterForm()
 		# a_form = UserRegForm()
@@ -189,14 +189,14 @@ def activate(request):
 		act_form = UserActForm()
 		return render(request, 'accounts/activate.html',{'act_form':act_form})
 
-#--------------------------------------- User registration end--------------------------------------	
-#--------------------------------------- Post Management start--------------------------------------	
+#--------------------------------------- User registration end--------------------------------------
+#--------------------------------------- Post Management start--------------------------------------
 class HomePostListView(LoginRequiredMixin, ListView):
 	models = Post
 	template_name = 'blog/home.html' # <app>/<model>_<viewtype>.html
 	ordering = ['-date_posted']
 	context_object_name = 'posts'
-	paginate_by = 2
+	paginate_by = 5
 	def get_queryset(self):
 		# usersid = User.objects.get(username='root').id
 		return Post.objects.filter(showpost=1).order_by('-date_posted')
@@ -218,23 +218,23 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 		form.instance.college = Profile.objects.get(user=self.request.user).college
 		form.instance.mobileno = Profile.objects.get(user=self.request.user).mobileno
 		form.instance.nameu = Profile.objects.get(user=self.request.user).nameu
-		backloghome(self.request.META['REMOTE_ADDR'], form.instance, "create", self.request.user.username)
+		#backloghome(self.request.META['REMOTE_ADDR'], form.instance, "create", self.request.user.username)
 		return super().form_valid(form)
-	
+
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	models = Post
 	template_name = 'blog/post_form.html' # <app>/<model>_<viewtype>.html
 	fields = ['title', 'content', 'image']
-	
+
 	def get_queryset(self):
 		return Post.objects.all()
-		
+
 	def form_valid(self, form):
 		form.instance.author = self.request.user
 		form.instance.date_posted = timezone.now()
 		#backloghome(self.request.META['REMOTE_ADDR'], form.instance, "update", self.request.user.username)
 		return super().form_valid(form)
-		
+
 	def test_func(self):
 		post = self.get_object()
 		if self.request.user == post.author:
@@ -248,7 +248,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	success_url = "/deltoken/"
 	def get_queryset(self):
 		return Post.objects.all()
-	
+
 	def form_valid(self, form):
 		form.instance.author = self.request.user
 		form.instance.showpost = 0
@@ -260,27 +260,27 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 		post = self.get_object()
 		if self.request.user == post.author:
 			return True
-		return False		
+		return False
 
 class UserPostListView(ListView):
 	models = Post
 	template_name = 'blog/user_posts.html' # <app>/<model>_<viewtype>.html
 	context_object_name = 'posts'
-	paginate_by = 2
-	
+	paginate_by = 5
+
 	def get_queryset(self):
 		user = get_object_or_404(User, username=self.kwargs.get('username'))
 		return Post.objects.filter(author=user, showpost=1).order_by('-date_posted')
-#--------------------------------------- Post Management end--------------------------------------	
-#--------------------------------------- Token Management start--------------------------------------	
-@login_required	
+#--------------------------------------- Post Management end--------------------------------------
+#--------------------------------------- Token Management start--------------------------------------
+@login_required
 def tokenaward(request, pk):
-	
+
 	event = Post.objects.get(id=pk)
 	myacc = Profile.objects.get(user=getiduser(event.author))
 	if request.method == 'POST':
 		donoracc = Profile.objects.get(user=request.user)
-		t_form = PostTokenForm(request.POST)		
+		t_form = PostTokenForm(request.POST)
 		if t_form.is_valid() and int(event.tokens) < int(request.POST['tokens']):
 			if int(event.tokens) == 100 and int(donoracc.tokenacc) > int(request.POST['tokens']):
 				myacc.tokenacc = str(int(myacc.tokenacc) + int(request.POST['tokens']))
@@ -293,7 +293,7 @@ def tokenaward(request, pk):
 				data = "{Author: " + str(event.author)+" "+str(myacc.tokenacc)+" Donor:"+ str(request.user.username)+" "+str(donoracc.tokenacc)+" Award:"+str(request.POST['tokens'])+"}\n"
 				#backloghome(request.META['REMOTE_ADDR'], event, "booked", request.user.username)
 				#backlogtoken(request.META['REMOTE_ADDR'], "homepage/tokenprof",str(pk), data)
-				
+
 			elif event.tokenbyuser == request.user and int(donoracc.tokenacc) > int(request.POST['tokens']):
 				myacc.tokenacc = str(int(myacc.tokenacc) + int(request.POST['tokens']))
 				myacc.save()
@@ -322,10 +322,10 @@ def tokenaward(request, pk):
 				#backlogtoken(request.META['REMOTE_ADDR'], "homepage/tokenprof", str(pk), data)
 			else:
 				messages.error(request, 'You cannot book. Your balance token is '+donoracc.tokenacc+' which is less than'+request.POST['tokens'])
-			
-			
+
+
 			# messages.success(request, 'Account is updated!')
-			
+
 			return redirect('blog-home')
 		else:
 			# messages.error(request, 'Already Booked with %s token. Give more token to book.'%event.tokens)
@@ -336,7 +336,7 @@ def tokenaward(request, pk):
 		context = {
 			'form' : t_form
 		}
-		return render(request, 'blog/posttoken.html', context)	
+		return render(request, 'blog/posttoken.html', context)
 
 @login_required
 def tokendetails(request):
@@ -357,14 +357,14 @@ def addtoken(request):
 		event.save()
 		e.tokens=100
 		e.save()
-	return redirect('/home/')	
+	return redirect('/home/')
 
 @login_required
 def deltoken(request):
 	event = Profile.objects.get(user=request.user)
 	event.tokenacc = str(int(event.tokenacc) - 100)
 	event.save()
-	return redirect('/home/')	
+	return redirect('/home/')
 
 @login_required
 def retbook(request, pk):
@@ -391,7 +391,7 @@ def retbook(request, pk):
 		else:
 			messages.success(request, 'Book is not shared yet.')
 		return redirect(urldir)
-		
+
 @login_required
 def booked(request, pk):
 	event = Post.objects.get(id=pk)
@@ -406,10 +406,10 @@ def booked(request, pk):
 		else: messages.success(request, 'No Buyers')
 		return redirect(urldir)
 
-	
-#--------------------------------------- Token Management end--------------------------------------	
-	
-@login_required	
+
+#--------------------------------------- Token Management end--------------------------------------
+
+@login_required
 def profile(request):
 	e = Profile.objects.get(user=request.user)
 	if request.method == 'POST':
@@ -443,15 +443,15 @@ def profile(request):
 		}
 		return render(request, 'accounts/profile.html', context)
 
-		
-@login_required	
+
+@login_required
 def tokuserprof(request, pk):
 		tokuser = Post.objects.get(id=pk).tokenbyuser
 		data = Profile.objects.get(user=getiduser(tokuser))
 		emailid = User.objects.get(username=tokuser).email # it is in user module not in profile
 		return render(request, 'accounts/tokuserprof.html', {'tokuser':tokuser,'email':emailid, 'data':data})
-#--------------------------------------- Admin Control Starts --------------------------------------	
-@login_required	
+#--------------------------------------- Admin Control Starts --------------------------------------
+@login_required
 def adlogdet(request):
 	if request.user.username == "root" :
 		event = Post.objects.all().order_by('-date_posted')
@@ -459,7 +459,7 @@ def adlogdet(request):
 	else:
 		return redirect('blog-home')
 
-@login_required	
+@login_required
 def chlog(request):
 	if request.user.username == "root" :
 		event = User.objects.all()
@@ -467,7 +467,7 @@ def chlog(request):
 	else:
 		return redirect('blog-home')
 
-@login_required	
+@login_required
 def chlogdet(request, pk):
 	if request.user.username == "root" :
 		e = User.objects.get(id=pk).username
@@ -475,14 +475,14 @@ def chlogdet(request, pk):
 		return render(request, 'chlogdet.html', {'e':e, 'event':event})
 	else:
 		return redirect('blog-home')
-		
+
 class PostPurgeView(LoginRequiredMixin, DeleteView):
 	models = Post
 	success_url = '/adlogdet/'
 	def get_queryset(self):
 		return Post.objects.all()
-#--------------------------------------- Admin Control ends --------------------------------------	
-#--------------------------------------- Search Starts --------------------------------------	
+#--------------------------------------- Admin Control ends --------------------------------------
+#--------------------------------------- Search Starts --------------------------------------
 
 @login_required
 def searchlogin(request):
@@ -547,7 +547,7 @@ def searchlogout(request):
 		messages.error(request, 'Search Not Found.')
 		return redirect('blog-homelogout')
 
-#--------------------------------------- Search Ends --------------------------------------	
+#--------------------------------------- Search Ends --------------------------------------
 def feedback(request):
 	if request.method == 'POST':
 		fdb_form = FeedbackForm(request.POST)
@@ -568,7 +568,7 @@ def feedback(request):
 	return render(request, "blog/fdb.html", {"feedback": fdb_form, "msgs":feedbackmsg})
 
 
-#--------------------------------------- Additional functions --------------------------------------	
+#--------------------------------------- Additional functions --------------------------------------
 def getiduser(userhere):
 	return User.objects.get(username=userhere).id
-	
+

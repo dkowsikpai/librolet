@@ -1,11 +1,10 @@
-﻿{%extends "blog/base.html" %}
+{%extends "blog/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-	
+
 		<div>
 			<h1>Librolet - Feedback</h1>
 		</div>
-		{% if user.is_autenticated%}
 			<div class="content-section" >
 				<form method="POST" enctype="multipart/form-data">
 					{% csrf_token %}
@@ -15,10 +14,9 @@
 					</fieldset>
 					<div class="form-group">
 						<button class="btn btn-info" type="submit">Post</button>
-					</div>			
+					</div>
 				</form>
 			</div>
-		{% endif %}
 		<div style="padding:15px; margin:auto;!important">
 			<table class="table table-striped table-dark">
 				<thead>
@@ -28,7 +26,7 @@
 					<th scope="col">Feedback</th>
 					<th scope="col">Admin Comment</th>
 				</tr>
-				</thead>	
+				</thead>
 			{% for i in msgs%}
 				  <tr>
 					{% if user.username == "root" %}

@@ -20,7 +20,7 @@ from blog import views
 from blog.views import HomeLogout
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('mottuty/', admin.site.urls),
 	path('', include('blog.urls')),
 	re_path(r'^.*/$', HomeLogout.as_view())
 
